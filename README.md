@@ -1,11 +1,13 @@
 Question 1.1 :
 
+La requête renvoie le code HTTP suivant :
 HTTP/1.1 200 OK
 Date: Fri, 18 Sep 2026 23:30:29 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 Transfer-Encoding: chunked
 
+Le serveur indique donc que la requête a été traitée correctement avec un statut 200 OK.
 
 Question 1.2 :
 
@@ -19,6 +21,7 @@ Content-Length: 20
 
 Question 1.3 :
 
+Parmi les informations envoyées par le navigateur, on retrouve notamment :
 sec-ch-ua
 "Google Chrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
 sec-ch-ua-mobile
@@ -33,7 +36,7 @@ Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
 
 Question 1.4 :
 
-# Erreur affichée dans la console
+Au départ, une erreur apparaît dans la console :
 Error: ENOENT: no such file or directory, open 'C:\Users\goujo\OneDrive\Bureau\INFO\L2\S4\Dev Web\TP\devweb-tp5\index.html'
     at async open (node:internal/fs/promises:1360:25)
     at async Object.readFile (node:internal/fs/promises:2149:14) {
@@ -45,7 +48,7 @@ Error: ENOENT: no such file or directory, open 'C:\Users\goujo\OneDrive\Bureau\I
 
 ENOENT (No such file or directory): Commonly raised by fs operations to indicate that a component of the specified pathname does not exist. No entity (file or directory) could be found by the given path.
 
-# Modification du .catch() pour renvoyer une 500
+Pour gérer l'erreur côté serveur, le catch() a été modifié afin de retourner une réponse HTTP 500 :
 function requestListener(_request, response) {
   fs.readFile("index.html", "utf8")
     .then((contents) => {
@@ -60,13 +63,13 @@ function requestListener(_request, response) {
     });
 }
 
-# Après renommage de __index.html en index.html
-Le serveur renvoie 200 et le contenu du fichier.
+Après avoir renommé __index.html en index.html, le serveur trouve correctement le fichier et retourne une réponse 200 OK avec son contenu.
 
 
 Question 1.5 :
 
-# requestListener en async/await
+Le même fonctionnement peut être écrit avec async/await :
+
 async function requestListener(_request, response) {
   try {
     const contents = await fs.readFile("index.html", "utf8");
@@ -83,21 +86,31 @@ async function requestListener(_request, response) {
 
 Question 1.6 :
 
-### npm install cross-env --save : a ajouté "cross-env" dans "dependencies" et créé le dossier node_modules/ + package-lock.json
+L'installation de cross-env avec :
 
-### npm install nodemon --save-dev : a ajouté "nodemon" dans "devDependencies"
+npm install cross-env --save
+
+a entraîné l'ajout de cross-env dans les dépendances du projet. Elle a également créé node_modules/ ainsi que package-lock.json.
+
+Pour nodemon, la commande utilisée est :
+
+npm install nodemon --save-dev
+
+Cette fois, nodemon est ajouté dans la section devDependencies, puisqu'il est principalement utilisé pendant le développement.
 
 
 Question 1.7 :
 
-# http-dev
-Variable = NODE_ENV=development
-Outil = nodemon (rechargement automatique de la page web)
-Usage = Développement web
+http-dev:
 
-nodemon surveille les fichiers et redémarre automatiquement --> pratique en dev
+Variable d'environnement : NODE_ENV=development 
+Commande utilisée : nodemon 
+Utilisation : développement
 
-# http-prod
+nodemon surveille les fichiers et redémarre automatiquement le serveur lorsqu'une modification est détectée
+
+http-prod: 
+
 Variable = NODE_ENV=production
 Outil = node ( pas de rechargement automatique de la page web)
 Usage = Production web
@@ -107,7 +120,6 @@ node lance juste le script une fois --> plus performant en prod
 
 Question 1.8 :
 
-# Code HTTP
 URL : http://localhost:8000/index.html
 Code HTTP : 200
 URL : http://localhost:8000/random.html
@@ -117,7 +129,8 @@ Code HTTP : 404
 URL : http://localhost:8000/dont-exist
 Code HTTP : 404
 
-# requestListener async/await modifié
+Pour gérer les différentes routes, le serveur a été modifié afin d'analyser l'URL avec split("/").
+
 async function requestListener(request, response) {
   response.setHeader("Content-Type", "text/html");
   try {
@@ -160,29 +173,34 @@ async function requestListener(request, response) {
   }
 }
 
-Après ajout de la route /random/:nb avec split("/") et fall-through
-sur "" et "index.html", les routes / et /index.html renvoient tous
-deux 200 avec le contenu de index.html, et /random/n renvoie n nombres
-aléatoires (400 si n n'est pas un entier).
+Grâce à cette modification, les routes / et /index.html utilisent toutes les deux le fichier index.html.
+
+La route /random.html génère un nombre aléatoire compris entre 0 et 99.
+
+Enfin, /random/n permet de générer n nombres aléatoires. Si la valeur fournie n'est pas un nombre entier valide, le serveur renvoie une erreur 400 Bad Request.
 
 
-Question 2.1 :
+Partie 2 – Express
+Question 2.1
 
-# URLs des documentations
-express : https://expressjs.com/
+Documentation utilisée
+Express : https://expressjs.com/
 http-errors : https://github.com/jshttp/http-errors
 loglevel : https://github.com/pimterry/loglevel
 morgan : https://github.com/expressjs/morgan
 
-# creation des scripts express-dev et express-prod
-express-dev": "cross-env NODE_ENV=development nodemon server-express.mjs
-express-prod": "cross-env NODE_ENV=production node server-express.mjs
+Deux scripts ont ensuite été ajoutés afin de pouvoir lancer le serveur Express selon l'environnement :
+
+"express-dev": "cross-env NODE_ENV=development nodemon server-express.mjs",
+"express-prod": "cross-env NODE_ENV=production node server-express.mjs"
+
+Le premier est destiné au développement et utilise nodemon, tandis que le second démarre directement le serveur avec Node.js.
 
 
 Question 2.2 :
 
-# Vérification des 3 routes :
-## Request URL http://localhost:8000/
+Vérification des 3 routes :
+Request URL http://localhost:8000/
 Request method
 GET
 Status code
@@ -203,7 +221,7 @@ Date: Sat, 19 Sep 2026 00:29:35 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 
-## Request URL http://localhost:8000/index.html
+Request URL http://localhost:8000/index.html
 Request method
 GET
 Status code
@@ -224,7 +242,7 @@ Date: Sat, 19 Sep 2026 00:30:21 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 
-## Request URL http://localhost:8000/random/5
+Request URL http://localhost:8000/random/5
 Request method
 GET
 Status code
@@ -245,7 +263,7 @@ Keep-Alive: timeout=5
 
 Question 2.3 :
 
-# Nouveaux par rapport au serveur HTTP natif :
+Nouveaux par rapport au serveur HTTP natif :
 X-Powered-By: Express (signature du framework)
 ETag (pour le cache)
 Content-Type avec charset=utf-8 (Express précise l'encodage)
@@ -263,7 +281,7 @@ L'option index du middleware express.static, activée par défaut avec la valeur
 
 Question 2.6 :
 
-# Codes HTTP sur style.css
+Codes HTTP sur style.css
 Premier chargement :	200 OK
 Ctrl+R :	304 Not Modified
 Ctrl+Shift+R :	200 OK
@@ -276,8 +294,8 @@ Justification :
 
 Question 2.7 :
 
-# Différence d'affichage dev vs prod
-## En development (npm run express-dev), la page d'erreur affiche :
+Différence d'affichage dev vs prod
+En development (npm run express-dev), la page d'erreur affiche :
 - Le code (ex: 404)
 - Le message (Not Found)
 - La stack trace complète (<pre>... avec les fichiers et lignes)
