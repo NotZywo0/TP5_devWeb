@@ -1,15 +1,14 @@
-=================================
 Question 1.1 :
-=================================
+
 HTTP/1.1 200 OK
 Date: Fri, 18 Sep 2026 23:30:29 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 Transfer-Encoding: chunked
 
-=================================
+
 Question 1.2 :
-=================================
+
 HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Fri, 18 Sep 2026 23:32:08 GMT
@@ -17,9 +16,9 @@ Connection: keep-alive
 Keep-Alive: timeout=5
 Content-Length: 20
 
-=================================
+
 Question 1.3 :
-=================================
+
 sec-ch-ua
 "Google Chrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
 sec-ch-ua-mobile
@@ -31,9 +30,9 @@ upgrade-insecure-requests
 user-agent
 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
 
-=================================
+
 Question 1.4 :
-=================================
+
 # Erreur affichée dans la console
 Error: ENOENT: no such file or directory, open 'C:\Users\goujo\OneDrive\Bureau\INFO\L2\S4\Dev Web\TP\devweb-tp5\index.html'
     at async open (node:internal/fs/promises:1360:25)
@@ -64,9 +63,9 @@ function requestListener(_request, response) {
 # Après renommage de __index.html en index.html
 Le serveur renvoie 200 et le contenu du fichier.
 
-=================================
+
 Question 1.5 :
-=================================
+
 # requestListener en async/await
 async function requestListener(_request, response) {
   try {
@@ -81,16 +80,16 @@ async function requestListener(_request, response) {
   }
 }
 
-=================================
+
 Question 1.6 :
-=================================
+
 ### npm install cross-env --save : a ajouté "cross-env" dans "dependencies" et créé le dossier node_modules/ + package-lock.json
 
 ### npm install nodemon --save-dev : a ajouté "nodemon" dans "devDependencies"
 
-=================================
+
 Question 1.7 :
-=================================
+
 # http-dev
 Variable = NODE_ENV=development
 Outil = nodemon (rechargement automatique de la page web)
@@ -105,9 +104,9 @@ Usage = Production web
 
 node lance juste le script une fois --> plus performant en prod
 
-=================================
+
 Question 1.8 :
-=================================
+
 # Code HTTP
 URL : http://localhost:8000/index.html
 Code HTTP : 200
@@ -166,9 +165,9 @@ sur "" et "index.html", les routes / et /index.html renvoient tous
 deux 200 avec le contenu de index.html, et /random/n renvoie n nombres
 aléatoires (400 si n n'est pas un entier).
 
-=================================
+
 Question 2.1 :
-=================================
+
 # URLs des documentations
 express : https://expressjs.com/
 http-errors : https://github.com/jshttp/http-errors
@@ -179,9 +178,9 @@ morgan : https://github.com/expressjs/morgan
 express-dev": "cross-env NODE_ENV=development nodemon server-express.mjs
 express-prod": "cross-env NODE_ENV=production node server-express.mjs
 
-=================================
+
 Question 2.2 :
-=================================
+
 # Vérification des 3 routes :
 ## Request URL http://localhost:8000/
 Request method
@@ -243,27 +242,27 @@ Date: Sat, 19 Sep 2026 00:28:18 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 
-=================================
+
 Question 2.3 :
-=================================
+
 # Nouveaux par rapport au serveur HTTP natif :
 X-Powered-By: Express (signature du framework)
 ETag (pour le cache)
 Content-Type avec charset=utf-8 (Express précise l'encodage)
 
-=================================
+
 Question 2.4 :
-=================================
+
 L'événement listening est déclenché quand le serveur a terminé de se lier au port et à l'hôte (après server.listen()), c'est-à-dire au moment où il commence à accepter des connexions. Il est asynchrone : le code situé après server.on("listening", ...) (comme console.info("File ... executed.")) s'exécute avant que le callback ne soit appelé.
 
-=================================
+
 Question 2.5 :
-=================================
+
 L'option index du middleware express.static, activée par défaut avec la valeur "index.html".
 
-=================================
+
 Question 2.6 :
-=================================
+
 # Codes HTTP sur style.css
 Premier chargement :	200 OK
 Ctrl+R :	304 Not Modified
@@ -274,9 +273,9 @@ Justification :
 - Au Ctrl+R, le navigateur envoie If-None-Match: <etag> : si l'ETag est identique, le serveur répond 304 --> pas de corps, juste l'utilisation de la version en cache
 - Au Ctrl+Shift+R, le navigateur vide le cache et redemande le fichier entier --> 200
 
-=================================
+
 Question 2.7 :
-=================================
+
 # Différence d'affichage dev vs prod
 ## En development (npm run express-dev), la page d'erreur affiche :
 - Le code (ex: 404)
